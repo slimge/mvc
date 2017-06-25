@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h3 style="color:red">@ViewBag.error</h3>
+<div style="margin: 50px auto">
+    <form method="post" action="@Url.Action("Image", "Home")" enctype="multipart/form-data" >
+        <input type="file" name="file" accept="image/*" />
+        <input type="submit" value="Send" />
+    </form>
+</div>
