@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Second</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="Content/bootstrap.css" />
+</head>
+<body>
+    <script type="text/javascript">
+        var ws;
+        window.onload = function () {
+            init();
+        }
+        function init()
+        {
+            ws = new WebSocket("ws://localhost:2202/Second.ashx");
+            ws.onopen = function () {
+                result.innerHTML = result.innerHTML + "connected <br/>";
+            };
+            ws.close = function () {
+                result.innerHTML = result.innerHTML + "closed <br/>";
+            };
+            ws.onmessage = function (e) {
+                var text = e.data.toString();
+                text = text.slice(1, text.length - 1);
+                result.innerHTML = result.innerHTML + timeNow() + ": " + text + "<br />";
+            };
+        }
+
+        function send() {
+            if (msg.value == undefined || msg.value == "") return;
+            ws.send(msg.value);
+            msg.value = "";
+        }
+        function timeNow() {
+            var d = new Date(),
+                h = (d.getHours() < 10 ? '0' : '') + d.getHours(),
+                m = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+            return h + ':' + m;
+        }
+    </script>
+    <input class="form-control" type="text" id="msg" style="float: left;height: 26px;width: 200px;"  />
+    <input class="btn-primary"  type="button" value="send" onclick="send();" />
+    <br />
+    <div id="result">
+
+    </div>
+</body>
+</html>
